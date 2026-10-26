@@ -72,10 +72,8 @@ struct MainTabView: View {
         NavigationInjectionView(coordinator: tab.coordinator) {
             tab.item.content
                 #if os(iOS)
-                    .if(tabCoordinator.tabs.first?.item.id == tab.item.id) { view in
-                        view.topBarTrailing {
-                            FirstTabSettingsBarButton()
-                        }
+                    .topBarTrailing {
+                        FirstTabSettingsBarButton()
                     }
                 #endif
         }

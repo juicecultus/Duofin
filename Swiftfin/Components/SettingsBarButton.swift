@@ -13,22 +13,20 @@ struct SettingsBarButton: View {
     let server: ServerState
     let user: UserState
     let action: () -> Void
+    @State private var showingSupport = false
 
     var body: some View {
-        Button(action: action) {
-            AlternateLayoutView {
-                // Seems necessary for button layout
-                Image(systemName: "gearshape.fill")
-            } content: {
-                UserProfileImage(
-                    userID: user.id,
-                    source: user.profileImageSource(
-                        client: server.client
-                    ),
-                    pipeline: .Swiftfin.local
-                )
+        Menu {
+            Button(action: action) { Label(L10n.settings, systemImage: "gearshape") }
+            Button { showingSupport = true } label: {
+                Label("Support development", systemImage: "heart")
             }
+            .accessibilityIdentifier("navigation.more.support")
+        } label: {
+            Image(systemName: "ellipsis")
         }
-        .accessibilityLabel(L10n.settings)
+        .accessibilityLabel("More")
+        .accessibilityIdentifier("navigation.more")
+        .sheet(isPresented: $showingSupport) { SupportDevelopmentView() }
     }
 }

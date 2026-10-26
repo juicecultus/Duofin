@@ -2,7 +2,7 @@
 
 User authorised optional tips in the launch submission on 26 October 2026. Duofin stays free and open source; no existing or new app feature is gated by tips.
 
-Settings → Support development is available both before and after server sign-in. Three repeatable consumable purchases use StoreKit and App Store localised prices. UK base prices: £2.99 / £5.99 / £14.99. Product IDs: com.ratedcounsel.swiftfin.duo.tip.small, .medium and .large.
+More (ellipsis) → Support development is available directly on every main browsing tab. Settings and the signed-out Advanced screen also retain access. Three repeatable consumable purchases use StoreKit and App Store localised prices. UK base prices: £2.99 / £5.99 / £14.99. Product IDs: com.ratedcounsel.swiftfin.duo.tip.small, .medium and .large.
 
 No subscription, reward, unlock or charity claim. No payment analytics or developer server. Verified recognised transactions are finished; cancellation is quiet, pending payments are explained and delayed approvals are handled at app level. Optional support copy explicitly states that all features stay free.
 
