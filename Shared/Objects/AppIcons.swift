@@ -42,7 +42,7 @@ enum AppIcon: String, CaseIterable, Displayable, Identifiable {
         case .green:
             L10n.green
         case .blue:
-            L10n.blue
+            "Duofin"
         }
     }
 

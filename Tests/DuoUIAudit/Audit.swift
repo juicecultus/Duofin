@@ -52,6 +52,18 @@ final class Audit: XCTestCase {
                 print("DUO_SYSTEM\n" + XCUIApplication(bundleIdentifier: "com.apple.springboard").debugDescription)
             case "up": surface.swipeUp()
             case "down": surface.swipeDown()
+            case "input":
+                let field = app.textFields.firstMatch
+                XCTAssertTrue(field.waitForExistence(timeout: 10))
+                field.tap()
+                field.typeText(value)
+            case "demoPassword":
+                let field = app.secureTextFields.firstMatch
+                XCTAssertTrue(field.waitForExistence(timeout: 10))
+                let secret = ProcessInfo.processInfo.environment["DUOFIN_REVIEW_PASSWORD"] ?? ""
+                XCTAssertFalse(secret.isEmpty, "Review password must be supplied privately")
+                field.tap()
+                field.typeText(secret)
             case "search":
                 let field = app.searchFields.firstMatch
                 XCTAssertTrue(field.waitForExistence(timeout: 10))

@@ -15,6 +15,8 @@ App Store release preparation is in progress. No public Duofin download is avail
 
 Duofin is distributed under the [Mozilla Public License 2.0](LICENSE.md). Copyright and attribution for Jellyfin and Swiftfin contributors are retained. Modified covered source files are available in this repository. Dependency licences remain applicable to their respective components.
 
+Duofin’s original icon uses two offset swept fins in copper and gold, composed as native glass layers in Icon Composer. It does not use the Jellyfin logo.
+
 Duofin changes are maintained by Justinian. Please report fork-specific issues here, rather than to upstream Swiftfin.
 
 ## Build
