@@ -36,6 +36,8 @@ struct SelectUserView: View {
 
     @Environment(\.localUserAuthenticationAction)
     private var authenticationAction
+    @Environment(\.duoGeometry)
+    private var duoGeometry
     @Environment(\.horizontalSizeClass)
     private var horizontalSizeClass
 
@@ -176,101 +178,128 @@ struct SelectUserView: View {
         }
     }
 
-    private var contentView: some View {
-        VStack(spacing: 0) {
-            ZStack {
-                if userItems.isEmpty {
-                    EmptyUserView {
-                        if let selectedServer {
-                            addUser(server: selectedServer)
-                        }
+    private var userContent: some View {
+        ZStack {
+            if userItems.isEmpty {
+                EmptyUserView {
+                    if let selectedServer {
+                        addUser(server: selectedServer)
                     }
-                    .contextMenu {
-                        if selectedServer == nil {
-                            Text(L10n.selectServer)
+                }
+                .contextMenu {
+                    if selectedServer == nil {
+                        Text(L10n.selectServer)
 
-                            ForEach(viewModel.servers.keys) { server in
-                                Button {
-                                    addUser(server: server)
-                                } label: {
-                                    Text(server.name)
-                                    Text(server.effectiveServerURL.absoluteString)
-                                }
+                        ForEach(viewModel.servers.keys) { server in
+                            Button {
+                                addUser(server: server)
+                            } label: {
+                                Text(server.name)
+                                Text(server.effectiveServerURL.absoluteString)
                             }
                         }
                     }
-                } else {
-                    switch userListDisplayType {
-                    case .list:
-                        ListView(
-                            userItems: userItems,
-                            isEditing: $isEditing,
-                            selectedUsers: $selectedUsers,
-                            serverSelection: serverSelection,
-                            action: { select(user: $0) },
-                            onDelete: { delete(user: $0) }
-                        )
+                }
+            } else {
+                switch userListDisplayType {
+                case .list:
+                    ListView(
+                        userItems: userItems,
+                        isEditing: $isEditing,
+                        selectedUsers: $selectedUsers,
+                        serverSelection: serverSelection,
+                        action: { select(user: $0) },
+                        onDelete: { delete(user: $0) }
+                    )
 
-                    case .grid:
-                        GridView(
-                            userItems: userItems,
-                            isEditing: $isEditing,
-                            selectedUsers: $selectedUsers,
-                            serverSelection: serverSelection,
-                            action: { select(user: $0) },
-                            onDelete: { delete(user: $0) }
-                        )
-                    }
+                case .grid:
+                    GridView(
+                        userItems: userItems,
+                        isEditing: $isEditing,
+                        selectedUsers: $selectedUsers,
+                        serverSelection: serverSelection,
+                        action: { select(user: $0) },
+                        onDelete: { delete(user: $0) }
+                    )
                 }
             }
-            .animation(.linear(duration: 0.1), value: userListDisplayType)
+        }
+    }
+
+    private var userToolbar: some View {
+        Toolbar(
+            servers: viewModel.servers.keys,
+            allUsers: userItems,
+            isEditing: $isEditing,
+            selectedUsers: $selectedUsers,
+            onDelete: {
+                isPresentingConfirmDeleteUsers = true
+            }
+        )
+    }
+
+    @ViewBuilder
+    private var contentView: some View {
+        #if os(iOS)
+        let horizontal = max(duoGeometry.safeArea.left, duoGeometry.safeArea.right)
+        // The toolbar is an overlay, so its height cannot pull the user chooser
+        // off centre. Balanced clearance keeps both the cards and logo on the
+        // display centre while leaving space for navigation and bottom actions.
+        let vertical = max(duoGeometry.safeArea.top + 64, duoGeometry.safeArea.bottom + 76)
+        userContent
+            .padding(.horizontal, horizontal)
+            .padding(.vertical, vertical)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .focusSection()
-            .mask {
-                VStack(spacing: 0) {
-                    #if os(tvOS)
-                    if userListDisplayType == .list {
+            .overlay(alignment: .bottom) {
+                userToolbar
+                    .padding(.horizontal, horizontal)
+                    .padding(.bottom, duoGeometry.safeArea.bottom)
+            }
+            .ignoresSafeArea(.container)
+        #else
+        VStack(spacing: 0) {
+            userContent
+                .animation(.linear(duration: 0.1), value: userListDisplayType)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .focusSection()
+                .mask {
+                    VStack(spacing: 0) {
+                        #if os(tvOS)
+                        if userListDisplayType == .list {
+                            LinearGradient(
+                                stops: [
+                                    .init(color: .clear, location: 0),
+                                    .init(color: .white, location: 1),
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            .frame(height: 30)
+                        }
+                        #endif
+
+                        Color.white
+
                         LinearGradient(
                             stops: [
-                                .init(color: .clear, location: 0),
-                                .init(color: .white, location: 1),
+                                .init(color: .white, location: 0),
+                                .init(color: .clear, location: 1),
                             ],
                             startPoint: .top,
                             endPoint: .bottom
                         )
                         .frame(height: 30)
                     }
-                    #endif
-
-                    Color.white
-
-                    LinearGradient(
-                        stops: [
-                            .init(color: .white, location: 0),
-                            .init(color: .clear, location: 1),
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: 30)
+                    .ignoresSafeArea(.all, edges: .horizontal)
                 }
-                .ignoresSafeArea(.all, edges: .horizontal)
-            }
 
-            Toolbar(
-                servers: viewModel.servers.keys,
-                allUsers: userItems,
-                isEditing: $isEditing,
-                selectedUsers: $selectedUsers,
-                onDelete: {
-                    isPresentingConfirmDeleteUsers = true
-                }
-            )
-            .focusSection()
-            #if os(tvOS)
-            .coordinatedFocus(.secondary)
-            #endif
+            userToolbar
+                .focusSection()
+                #if os(tvOS)
+                .coordinatedFocus(.secondary)
+                #endif
         }
+        #endif
     }
 
     var body: some View {
@@ -293,6 +322,18 @@ struct SelectUserView: View {
                 }
             }
         }
+        #if os(iOS)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .overlay(alignment: .top) {
+                Image(.jellyfinBlobBlue)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 30, height: 30)
+                    .padding(.top, max(24, duoGeometry.safeArea.top))
+                    .accessibilityHidden(true)
+            }
+            .ignoresSafeArea(.container)
+        #endif
         .animation(.linear(duration: 0.1), value: viewModel.state)
         .animation(.linear(duration: 0.1), value: selectedServer)
         .withViewContext(.isOverComplexContent)
@@ -301,11 +342,13 @@ struct SelectUserView: View {
             viewModel.getServers()
         }
         .toolbar {
-            ToolbarItem(placement: .principal) {
-                Image(.jellyfinBlobBlue)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: UIDevice.isTV ? 100 : 30)
+            if UIDevice.isTV {
+                ToolbarItem(placement: .principal) {
+                    Image(.jellyfinBlobBlue)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: UIDevice.isTV ? 100 : 30)
+                }
             }
 
             #if os(iOS)

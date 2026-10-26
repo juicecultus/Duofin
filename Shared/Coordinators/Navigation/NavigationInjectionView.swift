@@ -54,6 +54,11 @@ struct NavigationInjectionView: View {
                         )
                 }
         }
+        #if os(iOS)
+        // Sheets and navigation panes measure their own overlap with the window
+        // safe rectangle; never inherit the full display's side inset in a sheet.
+        .modifier(DuoGeometryScope())
+        #endif
         .trackingFrame(for: .navigationStack)
         .environment(
             \.router,

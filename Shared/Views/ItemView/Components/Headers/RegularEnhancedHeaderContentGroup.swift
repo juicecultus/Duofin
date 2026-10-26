@@ -22,6 +22,9 @@ extension ItemView {
 
         struct Body: View {
 
+            @Environment(\.duoGeometry)
+            private var duoGeometry
+
             @ObservedObject
             var provider: ItemContentGroupProvider
 
@@ -144,6 +147,7 @@ extension ItemView {
                 #if os(tvOS)
                 CinematicContentGroupContainer {
                     overlay
+                        .padding(.horizontal, max(duoGeometry.safeArea.left, duoGeometry.safeArea.right))
                         .edgePadding(.horizontal)
                         .frame(maxWidth: .infinity)
                         .colorScheme(.dark)
@@ -154,6 +158,7 @@ extension ItemView {
                         .aspectRatio(headerAspectRatio, contentMode: .fit)
                 } content: {
                     overlay
+                        .padding(.horizontal, max(duoGeometry.safeArea.left, duoGeometry.safeArea.right))
                         .edgePadding(.horizontal)
                         .frame(maxWidth: .infinity)
                         .colorScheme(.dark)

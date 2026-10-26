@@ -24,6 +24,9 @@ struct NotchMeasurement: Equatable, Sendable {
 
     /// Private cutout insets, or systemInsets when the private API is unavailable.
     let insets: EdgeInsets
+
+    /// Public occlusion geometry determines where video pixels can be drawn.
+    var videoInsets: EdgeInsets? = nil
 }
 
 struct NotchReader<Content: View>: View {
@@ -83,6 +86,19 @@ enum NotchDeviceReader {
             insets: system
         )
 
+        if #available(iOS 27.1, *) {
+            var videoInsets = EdgeInsets()
+            for region in view.reservedRegions(kind: .occlusion) where region.isActive {
+                guard let inset = cutoutInsets(enclosing: region.frame, in: bounds.size, layoutDirection: layoutDirection)
+                else { continue }
+                videoInsets.top = max(videoInsets.top, inset.top)
+                videoInsets.leading = max(videoInsets.leading, inset.leading)
+                videoInsets.bottom = max(videoInsets.bottom, inset.bottom)
+                videoInsets.trailing = max(videoInsets.trailing, inset.trailing)
+            }
+            fallback.videoInsets = videoInsets
+        }
+
         let screen = window.screen
 
         let displayFrame = view.convert(bounds, to: screen.coordinateSpace)
@@ -110,7 +126,8 @@ enum NotchDeviceReader {
             displayCornerRadius: fallback.displayCornerRadius,
             cutout: rect,
             systemInsets: system,
-            insets: insets
+            insets: insets,
+            videoInsets: fallback.videoInsets
         )
     }
 

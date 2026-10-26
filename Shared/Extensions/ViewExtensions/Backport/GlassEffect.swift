@@ -72,6 +72,9 @@ struct BackportGlass {
 
 struct BackportGlassEffectModifier<BackgroundShape: Shape>: ViewModifier {
 
+    @Environment(\.accessibilityReduceTransparency)
+    private var reduceTransparency
+
     @Environment(\.isEnabled)
     private var isEnabled
 
@@ -129,7 +132,18 @@ struct BackportGlassEffectModifier<BackgroundShape: Shape>: ViewModifier {
     @ViewBuilder
     private var legacyBackground: some View {
         if glass.isVisible {
-            if let resolvedTint {
+            if reduceTransparency {
+                // Keep translucent tints opaque as well as the untinted material.
+                shape
+                    .fill(resolvedTint ?? .clear)
+                    .background {
+                        #if os(tvOS)
+                        shape.fill(.background)
+                        #else
+                        shape.fill(Color(uiColor: .systemBackground))
+                        #endif
+                    }
+            } else if let resolvedTint {
                 shape
                     .fill(resolvedTint)
             } else {

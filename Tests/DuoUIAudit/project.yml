@@ -1,0 +1,24 @@
+name: DuoUIAudit
+options:
+  bundleIdPrefix: com.ratedcounsel.swiftfin
+settings:
+  base:
+    DEVELOPMENT_TEAM: 8STA477UF7
+    IPHONEOS_DEPLOYMENT_TARGET: '18.6'
+    GENERATE_INFOPLIST_FILE: YES
+    SWIFT_VERSION: '5.0'
+targets:
+  DuoUIAudit:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [Audit.swift]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.ratedcounsel.swiftfin.duoaudit
+schemes:
+  DuoUIAudit:
+    build:
+      targets:
+        DuoUIAudit: all
+    test:
+      targets: [DuoUIAudit]

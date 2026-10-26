@@ -141,6 +141,8 @@ extension VideoPlayer {
 
         private(set) var presentation: Presentation = .hidden
 
+        var isLaptopMode = false
+
         private(set) var aspectFillBehavior: AspectFillBehavior = .fit
 
         var zoom = VideoZoom()
@@ -556,11 +558,16 @@ extension VideoPlayer {
         }
 
         func toggleAspectFillBehavior() {
-            if isVideoEnlarged {
+            if zoom.transform != nil {
                 fitVideo()
-            } else {
-                fillVideo()
+                return
             }
+            if aspectFillBehavior == .fit {
+                fillVideo()
+            } else {
+                fitVideo()
+            }
+            toastProxy.present(aspectFillBehavior == .fill ? L10n.fill : L10n.original)
         }
 
         func showControls() {

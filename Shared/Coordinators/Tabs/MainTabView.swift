@@ -123,6 +123,7 @@ struct MainTabView: View {
         }
         #else
         tabView()
+            .tabViewStyle(.sidebarAdaptable)
         #endif
     }
 

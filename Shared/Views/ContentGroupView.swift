@@ -88,6 +88,7 @@ struct ContentGroupView<Provider: ContentGroupProvider>: View {
                         L10n.noResults.localizedCapitalized,
                         systemImage: "rectangle.on.rectangle.slash"
                     )
+                    .duoCenteredState()
                     .focusable()
                     #if os(tvOS)
                     .coordinatedFocus(.fallback)

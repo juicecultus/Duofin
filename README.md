@@ -1,60 +1,24 @@
-<div align="center">
-  <img alt="Swiftfin" src="./Resources/primary-wide.svg">
+# Duofin
 
-  <h1>Swiftfin</h1>
-  <img src="https://img.shields.io/badge/iOS-18+-red"/>
-  <img src="https://img.shields.io/badge/tvOS-26+-red"/>
-  <img src="https://img.shields.io/badge/Jellyfin-12.0-9962be"/>
-  
-  <a href="https://translate.jellyfin.org/engage/swiftfin/">
-    <img src="https://translate.jellyfin.org/widgets/swiftfin/-/svg-badge.svg"/>
-  </a>
-  <a href="https://matrix.to/#/#jellyfin:matrix.org">
-    <img src="https://img.shields.io/matrix/jellyfin:matrix.org">
-  </a>
-  <a href="https://discord.gg/zHBxVSXdBV">
-    <img src="https://img.shields.io/badge/Talk%20on-Discord-brightgreen">
-  </a>
-</div>
+A free, open-source Jellyfin client designed for iPhone Duo. Duofin is an independent fork of [Swiftfin](https://github.com/jellyfin/Swiftfin), not an official Jellyfin release.
 
-<p align="center">
-  <b>Swiftfin</b> is a modern video client for the <a href="https://github.com/jellyfin/jellyfin">Jellyfin</a> media server.
-</p>
+- Adaptive browsing across the outer and inner displays.
+- Playback uses the available display area and keeps video above the fold in laptop pose.
+- Original and Fill playback modes, with glass controls that respect system accessibility settings.
+- Your own Jellyfin server, your media, your choice.
 
-## ⚡️ Download
+## Availability
 
-<a href="https://apps.apple.com/us/app/swiftfin/id1604098728">
-  <img height=75 alt="Download on the Apple App Store" src="./Resources/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg"/>
-</a>
+App Store release preparation is in progress. No public Duofin download is available yet.
 
-## 🛠️ TestFlight
+## Source and licence
 
-Use the TestFlight version to test new features and bug fixes before being published to the App Store. We are grateful for your time and resources for reporting new bugs.
+Duofin is distributed under the [Mozilla Public License 2.0](LICENSE.md). Copyright and attribution for Jellyfin and Swiftfin contributors are retained. Modified covered source files are available in this repository. Dependency licences remain applicable to their respective components.
 
-<a href="https://testflight.apple.com/join/SqNPfdxq">
-  <img height=75 alt="Get the beta on TestFlight" src="./Resources/testflight.svg"/>
-</a>
+Duofin changes are maintained by Justinian. Please report fork-specific issues here, rather than to upstream Swiftfin.
 
-## 📖 Documentation
+## Build
 
-Swiftfin provides detailed documentation to help you understand key aspects of the app and its development approach:
+Open `Swiftfin.xcodeproj` in Xcode 27.1. The internal target and scheme retain the name Swiftfin. Set your own signing team in the ignored `XcodeConfig/DevelopmentTeam.xcconfig`; the installed application is named Duofin.
 
-- [🎞️ Library Support](https://github.com/jellyfin/Swiftfin/blob/main/Documentation/libraries.md) — Information on library compatibility and supported media types in Swiftin.
-- [🎬 Media Playback](https://github.com/jellyfin/Swiftfin/blob/main/Documentation/players.md) — Learn about Swiftfin's playback.
-- [🧩 OS Version Support](https://github.com/jellyfin/Swiftfin/blob/main/Documentation/version.md) — Read about how we determine the minimum supported OS and which versions of iOS & tvOS are supported.
-- [🐞 Common Issues](https://github.com/jellyfin/Swiftfin/blob/main/Documentation/common_issues.md) — If you are experiencing an issue with Swiftfin, this is the best place to start.
-- [💜 Supporting Development](https://jellyfin.org/docs/general/contributing/direct-donations) — Learn how you can support project development.
-
-## ⚙️ Development
-
-Thank you for your interest in Swiftfin! Please check out the [Contribution Guidelines](https://github.com/jellyfin/Swiftfin/blob/main/Documentation/contributing.md) to get started.
-
-## 📚 Translations
-
-**Don't see Swiftfin in your language?**
-
-Check out our [Weblate instance](https://translate.jellyfin.org/projects/swiftfin/) to help translate Swiftfin and other Jellyfin projects.
-
-<a href="https://translate.jellyfin.org/engage/swiftfin/">
-<img src="https://translate.jellyfin.org/widgets/swiftfin/-/multi-auto.svg"/>
-</a>
+See [Duo development](Documentation/duo-development.md), [validation](Documentation/duo-validation.md), and [upstream documentation](Documentation/upstream-readme.md).

@@ -85,5 +85,6 @@ struct ErrorView<ErrorType: Error>: View {
         .frame(maxWidth: .infinity)
         .focusSection()
         .edgePadding()
+        .duoCenteredState()
     }
 }

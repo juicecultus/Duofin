@@ -15,6 +15,12 @@ extension SelectUserView {
 
     struct GridView: PlatformView {
 
+        @Environment(\.dynamicTypeSize)
+        private var dynamicTypeSize
+
+        @ScaledMetric(relativeTo: .body)
+        private var labelClearance: CGFloat = 60
+
         @Binding
         private var isEditing: Bool
         @Binding
@@ -65,16 +71,28 @@ extension SelectUserView {
         }
 
         var iOSView: some View {
-            CenteredLazyVGrid(
-                data: userItems,
-                id: \.user.id,
-                columns: UIDevice.isPhone ? 2 : 5,
-                spacing: EdgeInsets.itemSpacing
-            ) { item in
-                userGridButton(for: item)
+            GeometryReader { geometry in
+                let width = max(0, geometry.size.width - 2 * DuoLayoutMetrics.gutter)
+                let maximumCardWidth = max(80, geometry.size.height - 2 * DuoLayoutMetrics.gutter - labelClearance)
+                let heightColumns = max(1, Int(ceil((width + EdgeInsets.itemSpacing) / (maximumCardWidth + EdgeInsets.itemSpacing))))
+                ScrollView {
+                    CenteredLazyVGrid(
+                        data: userItems,
+                        id: \.user.id,
+                        columns: max(heightColumns, DuoLayoutMetrics.columns(
+                            width: width,
+                            minimumWidth: 160,
+                            accessibility: dynamicTypeSize.isAccessibilitySize
+                        )),
+                        spacing: EdgeInsets.itemSpacing
+                    ) { item in
+                        userGridButton(for: item)
+                    }
+                    .padding(DuoLayoutMetrics.gutter)
+                }
+                .defaultScrollAnchor(.center, for: .alignment)
+                .scrollIndicators(.hidden)
             }
-            .edgePadding(UIDevice.isPhone ? [.horizontal, .vertical] : .horizontal)
-            .scrollIfLargerThanContainer(axes: .vertical, padding: 100)
         }
 
         var tvOSView: some View {

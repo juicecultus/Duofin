@@ -157,18 +157,10 @@ extension SeriesEpisodeContentGroup {
                 columnTrailingInset: 0
             )
             #else
-            if UIDevice.isPad {
-                .minimumWidth(
-                    columnWidth: 300,
-                    rows: 1
-                )
-            } else {
-                .grid(
-                    columns: 1.5,
-                    rows: 1,
-                    columnTrailingInset: 0
-                )
-            }
+            .minimumWidth(
+                columnWidth: 300,
+                rows: 1
+            )
             #endif
         }
 

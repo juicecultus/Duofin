@@ -1,0 +1,750 @@
+{
+ "readme": "Recorded snapshots of the iPhone Duo from the phone's engine log (tools/device.sh engine), one per geometry per status-bar state. Append-only: a new fact comes from a new device log line with its time; never edit an entry by hand. The inner camera is marked inactive (never in use when logged); a division is active only in a folded pass. The outer landscape with the status bar shown has no clean pass yet (the log's shown passes carry the upright camera, mid-rotation).",
+ "snapshots": [
+  {
+   "name": "closed-portrait",
+   "statusBar": "hidden",
+   "size": [
+    466,
+    678
+   ],
+   "widthClass": "compact",
+   "safeArea": {
+    "top": 0.0,
+    "leading": 0.0,
+    "bottom": 34.0,
+    "trailing": 84.0
+   },
+   "occlusions": [
+    {
+     "frame": [
+      399.6667,
+      29.3333,
+      37.0,
+      37.0
+     ],
+     "label": "outer camera",
+     "isActive": true
+    },
+    {
+     "frame": [
+      382.0,
+      0.0,
+      84.0,
+      82.0
+     ],
+     "label": "status cluster",
+     "isActive": true
+    }
+   ],
+   "divisions": [],
+   "statusBarFrame": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "statusBarHidden": true,
+   "time": "2026-10-25T14:23:40Z"
+  },
+  {
+   "name": "closed-portrait",
+   "statusBar": "shown",
+   "size": [
+    466,
+    678
+   ],
+   "widthClass": "compact",
+   "safeArea": {
+    "top": 0.0,
+    "leading": 0.0,
+    "bottom": 34.0,
+    "trailing": 84.0
+   },
+   "occlusions": [
+    {
+     "frame": [
+      399.6667,
+      29.3333,
+      37.0,
+      37.0
+     ],
+     "label": "outer camera",
+     "isActive": true
+    },
+    {
+     "frame": [
+      382.0,
+      0.0,
+      84.0,
+      82.0
+     ],
+     "label": "status cluster",
+     "isActive": true
+    }
+   ],
+   "divisions": [],
+   "statusBarFrame": [
+    0.0,
+    0.0,
+    466.0,
+    2.0
+   ],
+   "statusBarHidden": false,
+   "time": "2026-10-25T14:03:44Z"
+  },
+  {
+   "name": "outer-landscape-camera-leading",
+   "statusBar": "hidden",
+   "size": [
+    678,
+    466
+   ],
+   "widthClass": "compact",
+   "safeArea": {
+    "top": 0.0,
+    "leading": 84.0,
+    "bottom": 34.0,
+    "trailing": 0.0
+   },
+   "occlusions": [
+    {
+     "frame": [
+      29.3333,
+      29.3333,
+      37.0,
+      37.0
+     ],
+     "label": "outer camera",
+     "isActive": true
+    },
+    {
+     "frame": [
+      0.0,
+      0.0,
+      84.0,
+      82.0
+     ],
+     "label": "status cluster",
+     "isActive": true
+    }
+   ],
+   "divisions": [],
+   "statusBarFrame": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "statusBarHidden": true,
+   "time": "2026-10-25T14:20:16Z"
+  },
+  {
+   "name": "outer-landscape-camera-trailing",
+   "statusBar": "hidden",
+   "size": [
+    678,
+    466
+   ],
+   "widthClass": "compact",
+   "safeArea": {
+    "top": 0.0,
+    "leading": 0.0,
+    "bottom": 34.0,
+    "trailing": 84.0
+   },
+   "occlusions": [
+    {
+     "frame": [
+      611.6667,
+      399.6667,
+      37.0,
+      37.0
+     ],
+     "label": "outer camera",
+     "isActive": true
+    },
+    {
+     "frame": [
+      596.0,
+      382.0,
+      82.0,
+      84.0
+     ],
+     "label": "status cluster",
+     "isActive": true
+    }
+   ],
+   "divisions": [],
+   "statusBarFrame": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "statusBarHidden": true,
+   "time": "2026-10-25T14:03:57Z"
+  },
+  {
+   "name": "inner-landscape",
+   "statusBar": "hidden",
+   "size": [
+    951,
+    669
+   ],
+   "widthClass": "regular",
+   "safeArea": {
+    "top": 0.0,
+    "leading": 0.0,
+    "bottom": 34.0,
+    "trailing": 0.0
+   },
+   "occlusions": [
+    {
+     "frame": [
+      658.5764,
+      22.4425,
+      61.9753,
+      39.5415
+     ],
+     "label": "inner camera",
+     "isActive": false
+    }
+   ],
+   "divisions": [
+    {
+     "frame": [
+      455.5,
+      0.0,
+      40.0,
+      669.0
+     ],
+     "isActive": false
+    }
+   ],
+   "statusBarFrame": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "statusBarHidden": true,
+   "time": "2026-10-25T14:23:38Z"
+  },
+  {
+   "name": "inner-landscape",
+   "statusBar": "shown",
+   "size": [
+    951,
+    669
+   ],
+   "widthClass": "regular",
+   "safeArea": {
+    "top": 0.0,
+    "leading": 0.0,
+    "bottom": 34.0,
+    "trailing": 84.0
+   },
+   "occlusions": [
+    {
+     "frame": [
+      658.5764,
+      22.4425,
+      61.9753,
+      39.5415
+     ],
+     "label": "inner camera",
+     "isActive": false
+    },
+    {
+     "frame": [
+      867.0,
+      0.0,
+      84.0,
+      124.0
+     ],
+     "label": "status cluster",
+     "isActive": true
+    }
+   ],
+   "divisions": [
+    {
+     "frame": [
+      455.5,
+      0.0,
+      40.0,
+      669.0
+     ],
+     "isActive": false
+    }
+   ],
+   "statusBarFrame": [
+    0.0,
+    0.0,
+    951.0,
+    2.0
+   ],
+   "statusBarHidden": false,
+   "time": "2026-10-25T14:20:55Z"
+  },
+  {
+   "name": "inner-landscape-folded",
+   "statusBar": "hidden",
+   "size": [
+    951,
+    669
+   ],
+   "widthClass": "regular",
+   "safeArea": {
+    "top": 0.0,
+    "leading": 0.0,
+    "bottom": 34.0,
+    "trailing": 0.0
+   },
+   "occlusions": [
+    {
+     "frame": [
+      658.5764,
+      22.4425,
+      61.9753,
+      39.5415
+     ],
+     "label": "inner camera",
+     "isActive": false
+    }
+   ],
+   "divisions": [
+    {
+     "frame": [
+      455.5,
+      0.0,
+      40.0,
+      669.0
+     ],
+     "isActive": true
+    }
+   ],
+   "statusBarFrame": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "statusBarHidden": true,
+   "time": "2026-10-24T09:36:16Z"
+  },
+  {
+   "name": "inner-landscape-folded",
+   "statusBar": "shown",
+   "size": [
+    951,
+    669
+   ],
+   "widthClass": "regular",
+   "safeArea": {
+    "top": 0.0,
+    "leading": 0.0,
+    "bottom": 34.0,
+    "trailing": 84.0
+   },
+   "occlusions": [
+    {
+     "frame": [
+      658.5764,
+      22.4425,
+      61.9753,
+      39.5415
+     ],
+     "label": "inner camera",
+     "isActive": false
+    },
+    {
+     "frame": [
+      867.0,
+      0.0,
+      84.0,
+      178.0
+     ],
+     "label": "status cluster",
+     "isActive": true
+    }
+   ],
+   "divisions": [
+    {
+     "frame": [
+      455.5,
+      0.0,
+      40.0,
+      669.0
+     ],
+     "isActive": true
+    }
+   ],
+   "statusBarFrame": [
+    0.0,
+    0.0,
+    951.0,
+    2.0
+   ],
+   "statusBarHidden": false,
+   "time": "2026-10-24T10:07:13Z"
+  },
+  {
+   "name": "inner-portrait",
+   "statusBar": "hidden",
+   "size": [
+    669,
+    951
+   ],
+   "widthClass": "regular",
+   "safeArea": {
+    "top": 0.0,
+    "leading": 0.0,
+    "bottom": 34.0,
+    "trailing": 0.0
+   },
+   "occlusions": [
+    {
+     "frame": [
+      22.4425,
+      230.4483,
+      39.5415,
+      61.9753
+     ],
+     "label": "inner camera",
+     "isActive": false
+    },
+    {
+     "frame": [
+      525.0,
+      0.0,
+      144.0,
+      82.0
+     ],
+     "label": "status cluster",
+     "isActive": true
+    }
+   ],
+   "divisions": [
+    {
+     "frame": [
+      0.0,
+      455.5,
+      669.0,
+      40.0
+     ],
+     "isActive": false
+    }
+   ],
+   "statusBarFrame": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "statusBarHidden": true,
+   "time": "2026-10-25T14:21:29Z"
+  },
+  {
+   "name": "inner-portrait",
+   "statusBar": "shown",
+   "size": [
+    669,
+    951
+   ],
+   "widthClass": "regular",
+   "safeArea": {
+    "top": 82.0,
+    "leading": 0.0,
+    "bottom": 34.0,
+    "trailing": 0.0
+   },
+   "occlusions": [
+    {
+     "frame": [
+      22.4425,
+      230.4483,
+      39.5415,
+      61.9753
+     ],
+     "label": "inner camera",
+     "isActive": false
+    }
+   ],
+   "divisions": [
+    {
+     "frame": [
+      0.0,
+      455.5,
+      669.0,
+      40.0
+     ],
+     "isActive": false
+    }
+   ],
+   "statusBarFrame": [
+    0.0,
+    0.0,
+    669.0,
+    2.0
+   ],
+   "statusBarHidden": false,
+   "time": "2026-10-25T14:21:27Z"
+  },
+  {
+   "name": "inner-portrait-folded",
+   "statusBar": "hidden",
+   "size": [
+    669,
+    951
+   ],
+   "widthClass": "regular",
+   "safeArea": {
+    "top": 0.0,
+    "leading": 0.0,
+    "bottom": 34.0,
+    "trailing": 0.0
+   },
+   "occlusions": [
+    {
+     "frame": [
+      22.4425,
+      230.4483,
+      39.5415,
+      61.9753
+     ],
+     "label": "inner camera",
+     "isActive": false
+    }
+   ],
+   "divisions": [
+    {
+     "frame": [
+      0.0,
+      455.5,
+      669.0,
+      40.0
+     ],
+     "isActive": true
+    }
+   ],
+   "statusBarFrame": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "statusBarHidden": true,
+   "time": "2026-10-25T14:14:59Z"
+  },
+  {
+   "name": "outer-landscape-camera-trailing",
+   "statusBar": "shown",
+   "size": [
+    678,
+    466
+   ],
+   "widthClass": "compact",
+   "safeArea": {
+    "top": 0.0,
+    "leading": 0.0,
+    "bottom": 34.0,
+    "trailing": 84.0
+   },
+   "occlusions": [
+    {
+     "frame": [
+      399.6667,
+      29.3333,
+      37.0,
+      37.0
+     ],
+     "label": "camera-sized region",
+     "isActive": true
+    },
+    {
+     "frame": [
+      382.0,
+      0.0,
+      84.0,
+      82.0
+     ],
+     "label": "status cluster",
+     "isActive": true
+    }
+   ],
+   "divisions": [],
+   "statusBarFrame": [
+    0.0,
+    0.0,
+    678.0,
+    2.0
+   ],
+   "statusBarHidden": false,
+   "time": "2026-10-25T19:26:28Z"
+  },
+  {
+   "name": "closed-portrait",
+   "statusBar": "hidden",
+   "size": [
+    466,
+    678
+   ],
+   "widthClass": "compact",
+   "safeArea": {
+    "bottom": 34,
+    "leading": 0,
+    "top": 0,
+    "trailing": 84
+   },
+   "occlusions": [],
+   "divisions": [],
+   "statusBarFrame": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "statusBarHidden": true,
+   "time": "2026-10-25T20:03:16Z"
+  },
+  {
+   "name": "outer-landscape-camera-trailing",
+   "statusBar": "hidden",
+   "size": [
+    678,
+    466
+   ],
+   "widthClass": "compact",
+   "safeArea": {
+    "bottom": 34,
+    "leading": 0,
+    "top": 0,
+    "trailing": 84
+   },
+   "occlusions": [
+    {
+     "frame": [
+      611.6667,
+      399.6667,
+      37,
+      37
+     ],
+     "isActive": true,
+     "label": "outer camera"
+    },
+    {
+     "frame": [
+      594,
+      384,
+      84,
+      82
+     ],
+     "isActive": true,
+     "label": "status cluster"
+    }
+   ],
+   "divisions": [],
+   "statusBarFrame": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "statusBarHidden": true,
+   "time": "2026-10-25T20:03:42Z"
+  },
+  {
+   "name": "closed-portrait",
+   "statusBar": "shown",
+   "size": [
+    466,
+    678
+   ],
+   "widthClass": "compact",
+   "safeArea": {
+    "bottom": 34,
+    "leading": 0,
+    "top": 0,
+    "trailing": 84
+   },
+   "occlusions": [
+    {
+     "frame": [
+      399.6667,
+      29.3333,
+      37,
+      37
+     ],
+     "isActive": true,
+     "label": "outer camera"
+    },
+    {
+     "frame": [
+      382,
+      0,
+      84,
+      174
+     ],
+     "isActive": true,
+     "label": "status cluster"
+    }
+   ],
+   "divisions": [],
+   "statusBarFrame": [
+    0,
+    0,
+    466,
+    2
+   ],
+   "statusBarHidden": false,
+   "time": "2026-10-25T20:10:13Z"
+  },
+  {
+   "name": "closed-portrait",
+   "statusBar": "shown",
+   "size": [
+    466,
+    678
+   ],
+   "widthClass": "compact",
+   "safeArea": {
+    "bottom": 34,
+    "leading": 0,
+    "top": 0,
+    "trailing": 84
+   },
+   "occlusions": [
+    {
+     "frame": [
+      399.6667,
+      29.3333,
+      37,
+      37
+     ],
+     "isActive": true,
+     "label": "outer camera"
+    },
+    {
+     "frame": [
+      384,
+      0,
+      82,
+      84
+     ],
+     "isActive": true,
+     "label": "status cluster"
+    }
+   ],
+   "divisions": [],
+   "statusBarFrame": [
+    0,
+    0,
+    466,
+    2
+   ],
+   "statusBarHidden": false,
+   "time": "2026-10-25T20:20:42Z"
+  }
+ ]
+}

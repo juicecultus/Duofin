@@ -21,6 +21,9 @@ struct PagingLibraryView<Library: PagingLibrary>: View where Library.Element: Li
 
     typealias Element = Library.Element
 
+    @Environment(\.duoGeometry)
+    private var duoGeometry
+
     @Default(.Customization.Library.rememberLayout)
     private var rememberIndividualLibraryStyle
     @Default(.Customization.Library.style)
@@ -28,6 +31,11 @@ struct PagingLibraryView<Library: PagingLibrary>: View where Library.Element: Li
 
     @Environment(\.tabSafeAreaInsets)
     private var tabSafeAreaInsets
+
+    @Environment(\.dynamicTypeSize)
+    private var dynamicTypeSize
+    @Environment(\.horizontalSizeClass)
+    private var horizontalSizeClass
 
     @Namespace
     private var namespace
@@ -65,7 +73,7 @@ struct PagingLibraryView<Library: PagingLibrary>: View where Library.Element: Li
         libraryStyleOptions.hasVisibleControls ||
             (
                 libraryStyle.displayType == .list &&
-                    UIDevice.isPad &&
+                    horizontalSizeClass == .regular &&
                     libraryStyleOptions.displayTypes.contains(.list)
             )
     }
@@ -110,6 +118,14 @@ struct PagingLibraryView<Library: PagingLibrary>: View where Library.Element: Li
             insets.trailing = frame.safeAreaInsets.trailing
         }
 
+        // Use the navigation pane's measured window safe area as well: filter
+        // drawers can otherwise report zero horizontal insets to the collection.
+        // Equal margins keep the grid centred and clear of either controls rail.
+        let horizontal = max(insets.leading, insets.trailing,
+                             duoGeometry.safeArea.left + EdgeInsets.itemSpacing,
+                             duoGeometry.safeArea.right + EdgeInsets.itemSpacing)
+        insets.leading = horizontal
+        insets.trailing = horizontal
         return insets
         #endif
     }
@@ -124,7 +140,9 @@ struct PagingLibraryView<Library: PagingLibrary>: View where Library.Element: Li
                 layout: Element.layout(
                     for: libraryStyle,
                     options: libraryStyleOptions,
-                    insets: contentInsets(for: frame)
+                    insets: contentInsets(for: frame),
+                    availableWidth: frame.frame.width,
+                    accessibility: dynamicTypeSize.isAccessibilitySize
                 )
             ) { element in
                 element.makeBody(libraryStyle: libraryStyle)
@@ -198,6 +216,7 @@ struct PagingLibraryView<Library: PagingLibrary>: View where Library.Element: Li
                 switch viewModel.state {
                 case .initial, .refreshing:
                     ProgressView()
+                        .duoCenteredState()
                         #if os(tvOS)
                             .coordinatedFocus(.placeholder)
                         #endif
@@ -205,11 +224,13 @@ struct PagingLibraryView<Library: PagingLibrary>: View where Library.Element: Li
                 case .content:
                     if viewModel.isSearchActive, viewModel.background.is(.searching) {
                         ProgressView()
+                        .duoCenteredState()
                     } else if viewModel.displayedElements.isEmpty {
                         ContentUnavailableView(
                             viewModel.isSearchActive ? L10n.noResults.localizedCapitalized : L10n.noItems.localizedCapitalized,
                             systemImage: viewModel.isSearchActive ? "magnifyingglass" : "rectangle.on.rectangle.slash"
                         )
+                        .duoCenteredState()
                         .focusable()
                         #if os(tvOS)
                         .coordinatedFocus(.fallback)

@@ -85,7 +85,7 @@ extension VideoPlayer {
             let videoSize: () -> CGSize
 
             private var shouldPresentDimOverlay: Bool {
-                viewState.visibleElements.contains(.dimming)
+                !viewState.isLaptopMode && viewState.visibleElements.contains(.dimming)
             }
 
             var body: some View {
@@ -321,7 +321,7 @@ extension VideoPlayer {
         // MARK: - Constants
 
         private var availableSupplementHeight: CGFloat {
-            max(0, view.bounds.height - view.safeAreaInsets.top)
+            max(0, view.bounds.height - (laptopDivision?.maxY ?? view.safeAreaInsets.top) - (laptopDivision == nil ? 0 : 120))
         }
 
         private func supplementContainerOffset(
@@ -355,13 +355,19 @@ extension VideoPlayer {
 
         // MARK: - Constraints
 
+        private var laptopDivision: CGRect?
+        private var playerLaptopBottomAnchor: NSLayoutConstraint?
+        private var controlsTopAnchor: NSLayoutConstraint?
+        #if os(iOS)
+        private var duoProbe: DuoGeometryReader.Probe?
+        #endif
         private var playerCompactBottomAnchor: NSLayoutConstraint?
         private var playerRegularBottomAnchor: NSLayoutConstraint?
         private var supplementHeightAnchor: NSLayoutConstraint?
         private var supplementBottomAnchor: NSLayoutConstraint?
 
         private var centerOffset: CGFloat {
-            compactPlayerOverlap.map { max(50, $0) } ?? dismissedSupplementContainerOffset
+            laptopDivision == nil ? (compactPlayerOverlap.map { max(50, $0) } ?? dismissedSupplementContainerOffset) : 0
         }
 
         private var compactPlayerBottomOffset: CGFloat {
@@ -623,6 +629,25 @@ extension VideoPlayer {
 
             setupOnLoadViews()
             setupOnLoadConstraints()
+            #if os(iOS)
+            let probe = DuoGeometryReader.Probe()
+            probe.translatesAutoresizingMaskIntoConstraints = false
+            probe.report = { [weak self] geometry in
+                guard let self, self.laptopDivision != geometry.laptopDivision else { return }
+                self.laptopDivision = geometry.laptopDivision
+                self.cancelSupplementPan()
+                self.adjustConstraints(isCompact: UIDevice.isPhone && self.view.bounds.size.isPortrait)
+                self.view.setNeedsLayout()
+            }
+            view.insertSubview(probe, at: 0)
+            NSLayoutConstraint.activate([
+                probe.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                probe.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                probe.topAnchor.constraint(equalTo: view.topAnchor),
+                probe.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            ])
+            duoProbe = probe
+            #endif
 
             Task { @MainActor in
                 viewState.isCompact = isCompact
@@ -644,6 +669,10 @@ extension VideoPlayer {
             view.sendSubviewToBack(playerView)
             playerViewController.didMove(toParent: self)
             playerView.backgroundColor = .black
+            playerView.clipsToBounds = true
+            #if os(iOS)
+            playerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(revealLaptopControls)))
+            #endif
 
             let bottomAnchor = playerView.bottomAnchor.constraint(
                 equalTo: supplementContainerView.topAnchor,
@@ -652,6 +681,7 @@ extension VideoPlayer {
 
             playerCompactBottomAnchor = bottomAnchor
             playerRegularBottomAnchor = playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            playerLaptopBottomAnchor = playerView.bottomAnchor.constraint(equalTo: view.topAnchor)
 
             NSLayoutConstraint.activate([
                 playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -661,7 +691,15 @@ extension VideoPlayer {
 
             playerCompactBottomAnchor?.isActive = viewState.isCompact
             playerRegularBottomAnchor?.isActive = !viewState.isCompact
+            adjustConstraints(isCompact: viewState.isCompact)
         }
+
+        #if os(iOS)
+        @objc private func revealLaptopControls() {
+            guard laptopDivision != nil else { return }
+            viewState.showControls()
+        }
+        #endif
 
         private func setupOnLoadViews() {
             addChild(playbackControlsViewController)
@@ -717,11 +755,12 @@ extension VideoPlayer {
             #endif
 
             playbackControlsBottomAnchor.priority = .defaultHigh
+            controlsTopAnchor = playbackControlsView.topAnchor.constraint(equalTo: view.topAnchor)
+            controlsTopAnchor?.isActive = true
 
             NSLayoutConstraint.activate([
                 playbackControlsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 playbackControlsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                playbackControlsView.topAnchor.constraint(equalTo: view.topAnchor),
                 playbackControlsBottomAnchor,
                 playbackControlsView.bottomAnchor.constraint(
                     lessThanOrEqualTo: overlayActionsView.topAnchor,
@@ -776,6 +815,7 @@ extension VideoPlayer {
 
         private func adjustConstraints(isCompact: Bool) {
             viewState.isCompact = isCompact
+            viewState.isLaptopMode = laptopDivision != nil
 
             guard let supplementBottomAnchor,
                   let supplementHeightAnchor,
@@ -784,7 +824,14 @@ extension VideoPlayer {
 
             let presentedOffset = supplementContainerOffset(isCompact: isCompact)
 
-            if isCompact {
+            playerLaptopBottomAnchor?.isActive = false
+            controlsTopAnchor?.constant = laptopDivision?.maxY ?? 0
+            if let division = laptopDivision {
+                playerCompactBottomAnchor.isActive = false
+                playerRegularBottomAnchor?.isActive = false
+                playerLaptopBottomAnchor?.constant = division.minY
+                playerLaptopBottomAnchor?.isActive = true
+            } else if isCompact {
                 playerRegularBottomAnchor?.isActive = false
                 playerCompactBottomAnchor.isActive = true
             } else {

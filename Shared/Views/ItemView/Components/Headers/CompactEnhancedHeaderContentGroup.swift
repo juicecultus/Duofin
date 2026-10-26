@@ -23,6 +23,9 @@ extension ItemView {
 
         struct Body: View {
 
+            @Environment(\.duoGeometry)
+            private var duoGeometry
+
             @ObservedObject
             var provider: ItemContentGroupProvider
 
@@ -115,6 +118,7 @@ extension ItemView {
 
             var body: some View {
                 overlay
+                    .padding(.horizontal, max(duoGeometry.safeArea.left, duoGeometry.safeArea.right))
                     .edgePadding(.horizontal)
                     .frame(maxWidth: .infinity)
                     .colorScheme(.dark)

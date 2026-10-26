@@ -30,10 +30,11 @@ struct SwiftfinApp: App {
                 PreferencesView {
                     WithLocalUserAuthentication {
                         RootView()
-                            .supportedOrientations(UIDevice.isPad ? .allButUpsideDown : .portrait)
+                            .supportedOrientations(UIDevice.isPad ? .all : .allButUpsideDown)
                     }
                 }
             }
+            .modifier(DuoGeometryScope())
             .ignoresSafeArea()
         }
     }

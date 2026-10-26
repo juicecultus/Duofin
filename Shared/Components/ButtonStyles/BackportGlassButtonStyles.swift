@@ -95,9 +95,7 @@ private struct BackportGlassButtonStyleBody: View {
         switch prominence {
         case .standard:
             nativeButton
-                #if !os(iOS)
-                    .buttonStyle(.glass)
-                #endif
+                .buttonStyle(.glass)
 
         case .prominent:
             nativeButton

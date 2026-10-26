@@ -11,6 +11,9 @@ import SwiftUI
 
 struct BaseItemDtoPosterLabel: View {
 
+    @Environment(\.dynamicTypeSize)
+    private var dynamicTypeSize
+
     @Environment(\.posterConfiguration)
     private var posterConfiguration
     @Environment(\.posterDisplayType)
@@ -121,7 +124,7 @@ struct BaseItemDtoPosterLabel: View {
                         Text(item.displayTitle)
                             .font(.footnote)
                             .multilineTextAlignment(.leading)
-                            .lineLimit(hasSubtitle ? 1 : 2, reservesSpace: true)
+                            .lineLimit(dynamicTypeSize.isAccessibilitySize ? 4 : (hasSubtitle ? 1 : 2), reservesSpace: true)
                     }
 
                     subtitleView

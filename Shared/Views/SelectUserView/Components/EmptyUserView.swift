@@ -14,7 +14,20 @@ extension SelectUserView {
 
         let action: () -> Void
 
-        private let columns: CGFloat = UIDevice.isPhone ? 2 : 5
+        @Environment(\.dynamicTypeSize)
+        private var dynamicTypeSize
+
+        private func columns(for width: CGFloat) -> CGFloat {
+            #if os(tvOS)
+            5
+            #else
+            CGFloat(DuoLayoutMetrics.columns(
+                width: max(0, width - 2 * DuoLayoutMetrics.gutter),
+                minimumWidth: 160,
+                accessibility: dynamicTypeSize.isAccessibilitySize
+            ))
+            #endif
+        }
 
         private var imageView: some View {
             RelativeSystemImageView(systemName: "plus")
@@ -56,8 +69,9 @@ extension SelectUserView {
 
         var body: some View {
             GeometryReader { geometry in
+                let columns = columns(for: geometry.size.width)
                 addUserButton
-                    .frame(maxWidth: (geometry.size.width - EdgeInsets.edgePadding * (columns + 1)) / columns)
+                    .frame(maxWidth: min(UIDevice.isTV ? .infinity : 160, (geometry.size.width - EdgeInsets.edgePadding * (columns + 1)) / columns))
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .focusSection()
             }

@@ -132,6 +132,7 @@ struct ItemView: View {
                 viewModel.error.map(ErrorView.init)
             case .initial, .refreshing:
                 ProgressView()
+                    .duoCenteredState()
             }
         }
         .trackingSize($contentSize)

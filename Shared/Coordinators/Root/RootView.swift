@@ -19,6 +19,7 @@ struct RootView: View {
             switch rootCoordinator.state {
             case .initial:
                 ProgressView()
+                    .duoCenteredState()
             case .error:
                 ErrorView(error: rootCoordinator.error ?? ErrorMessage(L10n.unknownError))
             case .ready:

@@ -7,6 +7,7 @@
 //
 
 DEVELOPMENT_TEAM = 
-PRODUCT_BUNDLE_IDENTIFIER = org.jellyfin.swiftfin
+PRODUCT_BUNDLE_IDENTIFIER = com.ratedcounsel.swiftfin.duo
+SWIFTFIN_DISPLAY_NAME = Duofin
 
 #include? "DevelopmentTeam.xcconfig"

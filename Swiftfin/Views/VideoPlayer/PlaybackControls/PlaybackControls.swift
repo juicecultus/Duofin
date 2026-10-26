@@ -41,9 +41,8 @@ extension VideoPlayer {
                         .frame(height: 50)
                         .isVisible(viewState.visibleElements.contains(.toolbar))
                         .enabled(viewState.visibleElements.contains(.toolbar))
-                        .padding(.top, safeAreaInsets.top)
-                        .padding(.leading, safeAreaInsets.leading)
-                        .padding(.trailing, safeAreaInsets.trailing)
+                        .padding(.top, viewState.isLaptopMode ? 0 : safeAreaInsets.top)
+                        .padding(.horizontal, max(safeAreaInsets.leading, safeAreaInsets.trailing))
                         .offset(y: viewState.isPresentingControls ? 0 : -20)
 
                     Spacer()
@@ -53,8 +52,7 @@ extension VideoPlayer {
                         .isVisible(viewState.isPresentingProgress)
                         .enabled(viewState.isPresentingProgress)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading, safeAreaInsets.leading)
-                        .padding(.trailing, safeAreaInsets.trailing)
+                        .padding(.horizontal, max(safeAreaInsets.leading, safeAreaInsets.trailing))
                         .trackingFrame($bottomContentFrame)
                         .background {
                             if viewState.isPresentingProgress {

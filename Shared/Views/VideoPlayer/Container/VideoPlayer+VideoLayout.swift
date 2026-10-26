@@ -94,11 +94,12 @@ extension VideoPlayer {
             guard behavior == .fit else { return .init() }
 
             let horizontalInset = max(insets.leading, insets.trailing)
+            let verticalInset = max(insets.top, insets.bottom)
 
             return EdgeInsets(
-                top: insets.top,
+                top: verticalInset,
                 leading: horizontalInset,
-                bottom: insets.bottom,
+                bottom: verticalInset,
                 trailing: horizontalInset
             )
         }
@@ -138,9 +139,10 @@ extension VideoPlayer {
             NotchReader { notchMeasurement in
                 GeometryReader { geometry in
                     let usesSystemSafeArea = viewState.isCompact && notchMeasurement?.cutout == nil
-                    let fitInsets = usesSystemSafeArea
+                    let measuredInsets = notchMeasurement?.videoInsets ?? (usesSystemSafeArea
                         ? (notchMeasurement?.systemInsets ?? geometry.safeAreaInsets)
-                        : VideoLayout.padding(insets: notchMeasurement?.insets ?? .init(), behavior: .fit)
+                        : (notchMeasurement?.insets ?? .init()))
+                    let fitInsets = VideoLayout.padding(insets: measuredInsets, behavior: .fit)
 
                     let zoomGeometry = VideoZoom.Geometry(
                         videoSize: videoSize(),
@@ -155,7 +157,7 @@ extension VideoPlayer {
 
                     viewport
                         .padding(viewState.zoom.transform == nil && viewState.aspectFillBehavior == .fit ? fitInsets : .init())
-                        .opacity(viewState.aspectFillBehavior == .fill || notchMeasurement != nil ? 1 : 0)
+                        .opacity(viewState.aspectFillBehavior != .fit || notchMeasurement != nil ? 1 : 0)
                         .animation(.easeInOut(duration: 0.2), value: viewState.aspectFillBehavior)
                         .onChange(of: zoomGeometry, initial: true) { _, value in
                             if viewState.zoom.geometry != value {

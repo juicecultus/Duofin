@@ -10,6 +10,9 @@ import SwiftUI
 
 struct NavigationBarFilterDrawerModifier: ViewModifier {
 
+    @Environment(\.duoGeometry)
+    private var duoGeometry
+
     @FocusState
     private var focusedFilter: FilterTrack.FocusTarget?
 
@@ -27,7 +30,7 @@ struct NavigationBarFilterDrawerModifier: ViewModifier {
         .contentMargins(.horizontal, 16, for: .scrollContent)
         .padding(.bottom, 5)
         .scrollIndicators(.hidden)
-        .scrollClipDisabled()
+        .padding(.horizontal, max(duoGeometry.safeArea.left, duoGeometry.safeArea.right))
     }
 
     func body(content: Content) -> some View {

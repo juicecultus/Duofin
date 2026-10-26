@@ -35,7 +35,9 @@ protocol LibraryElement: Displayable, Hashable, Identifiable {
     static func layout(
         for libraryStyle: LibraryStyle,
         options: LibraryStyleOptions,
-        insets: EdgeInsets
+        insets: EdgeInsets,
+        availableWidth: CGFloat?,
+        accessibility: Bool
     ) -> CollectionVGridLayout
 }
 
@@ -68,32 +70,44 @@ extension LibraryElement {
     static func layout(
         for libraryStyle: LibraryStyle,
         options: LibraryStyleOptions,
-        insets: EdgeInsets
+        insets: EdgeInsets,
+        availableWidth: CGFloat? = nil,
+        accessibility: Bool = false
     ) -> CollectionVGridLayout {
         let libraryStyle = options.normalized(libraryStyle)
 
         #if os(iOS)
         switch libraryStyle.displayType {
         case .grid:
-            if UIDevice.isPhone {
+            if let availableWidth {
+                let width = max(0, availableWidth - insets.leading - insets.trailing)
                 return .columns(
-                    libraryStyle.posterDisplayType == .landscape ? 2 : 3,
+                    DuoLayoutMetrics.columns(
+                        width: width,
+                        minimumWidth: libraryStyle.posterDisplayType == .landscape ? 220 : 120,
+                        accessibility: accessibility
+                    ),
                     insets: insets,
-                    itemSpacing: EdgeInsets.itemSpacing,
-                    lineSpacing: EdgeInsets.itemSpacing
+                    itemSpacing: DuoLayoutMetrics.spacing,
+                    lineSpacing: DuoLayoutMetrics.spacing
                 )
             }
-
             return .minWidth(
-                libraryStyle.posterDisplayType == .landscape ? 220 : 140,
+                libraryStyle.posterDisplayType == .landscape ? 220 : 120,
                 insets: insets,
-                itemSpacing: EdgeInsets.itemSpacing,
-                lineSpacing: EdgeInsets.itemSpacing
+                itemSpacing: DuoLayoutMetrics.spacing,
+                lineSpacing: DuoLayoutMetrics.spacing
             )
 
         case .list:
             return .columns(
-                libraryStyle.listColumnCount,
+                availableWidth.map {
+                    DuoLayoutMetrics.listColumns(
+                        width: max(0, $0 - insets.leading - insets.trailing),
+                        preferred: libraryStyle.listColumnCount,
+                        accessibility: accessibility
+                    )
+                } ?? libraryStyle.listColumnCount,
                 insets: insets,
                 itemSpacing: 0,
                 lineSpacing: 0

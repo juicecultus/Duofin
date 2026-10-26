@@ -26,7 +26,10 @@ struct AboutAppView: View {
                         .aspectRatio(1, contentMode: .fit)
                         .frame(height: 150)
 
-                    Text(verbatim: "Swiftfin")
+                    Text(verbatim: "Duofin")
+                    Text("Independent Jellyfin client, based on Swiftfin.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
                         .fontWeight(.semibold)
                         .font(.title2)
                 }

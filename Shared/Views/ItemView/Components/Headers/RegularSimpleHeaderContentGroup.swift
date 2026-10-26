@@ -22,6 +22,9 @@ extension ItemView {
 
         struct Body: View {
 
+            @Environment(\.duoGeometry)
+            private var duoGeometry
+
             @ObservedObject
             var provider: ItemContentGroupProvider
 
@@ -98,6 +101,7 @@ extension ItemView {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .focusSection()
+                .padding(.horizontal, max(duoGeometry.safeArea.left, duoGeometry.safeArea.right))
                 .edgePadding()
                 .frame(maxWidth: .infinity, alignment: .topLeading)
             }
