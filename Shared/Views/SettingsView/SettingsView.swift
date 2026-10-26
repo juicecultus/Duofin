@@ -37,7 +37,7 @@ struct SettingsView: View {
             customizeSection
             #if os(iOS)
             Section {
-                Button("Support development", systemImage: "heart") { showingSupport = true }
+                Button("Support Duofin", systemImage: "heart") { showingSupport = true }
                     .accessibilityIdentifier("settings.support")
             }
             #endif

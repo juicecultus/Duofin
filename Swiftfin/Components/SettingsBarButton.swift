@@ -19,7 +19,7 @@ struct SettingsBarButton: View {
         Menu {
             Button(action: action) { Label(L10n.settings, systemImage: "gearshape") }
             Button { showingSupport = true } label: {
-                Label("Support development", systemImage: "heart")
+                Label("Support Duofin", systemImage: "heart")
             }
             .accessibilityIdentifier("navigation.more.support")
         } label: {
