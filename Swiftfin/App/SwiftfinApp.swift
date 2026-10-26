@@ -35,6 +35,7 @@ struct SwiftfinApp: App {
                 }
             }
             .modifier(DuoGeometryScope())
+            .task { SupportTipStore.shared.start() }
             .ignoresSafeArea()
         }
     }

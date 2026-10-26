@@ -13,6 +13,8 @@ import SwiftUI
 
 struct SettingsView: View {
 
+    @State private var showingSupport = false
+
     #if os(iOS)
     @Default(.userAppearance)
     private var appearance
@@ -33,10 +35,17 @@ struct SettingsView: View {
         Form(image: .jellyfinBlobBlue) {
             serverSection
             customizeSection
+            #if os(iOS)
+            Section {
+                Button("Support development", systemImage: "heart") { showingSupport = true }
+                    .accessibilityIdentifier("settings.support")
+            }
+            #endif
             diagnosticsSection
         }
         #if os(iOS)
         .navigationTitle(L10n.settings)
+            .sheet(isPresented: $showingSupport) { SupportDevelopmentView() }
             .navigationBarCloseButton {
                 router.dismiss()
             }

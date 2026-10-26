@@ -13,6 +13,8 @@ import SwiftUI
 
 struct AppSettingsView: View {
 
+    @State private var showingSupport = false
+
     @Default(.selectUserUseSplashscreen)
     private var selectUserUseSplashscreen
     @Default(.selectUserAllServersSplashscreen)
@@ -58,6 +60,12 @@ struct AppSettingsView: View {
 
     var body: some View {
         Form(image: .jellyfinBlobBlue) {
+            #if os(iOS)
+            Section {
+                Button("Support development", systemImage: "heart") { showingSupport = true }
+                    .accessibilityIdentifier("settings.support")
+            }
+            #endif
 
             Section(L10n.swiftfin) {
                 ChevronButton(L10n.aboutApp) {
@@ -139,6 +147,9 @@ struct AppSettingsView: View {
         .animation(.linear, value: selectUserUseSplashscreen)
         .animation(.linear, value: signOutOnBackground)
         .navigationTitle(L10n.advanced)
+        #if os(iOS)
+        .sheet(isPresented: $showingSupport) { SupportDevelopmentView() }
+        #endif
         .navigationBarCloseButton {
             router.dismiss()
         }
