@@ -2,7 +2,7 @@
 
 Effective 26 October 2026.
 
-Duofin is a free, open-source Jellyfin client maintained by Justinian / Rated Counsel Limited. It has no advertising or tracking SDK and does not send app analytics to the developer.
+Duofin is a free, open-source Jellyfin client maintained by Justinian / Rated Counsel Limited. It has no advertising and does not send app analytics to the developer. The included Google Cast SDK declares limited data collection, described below.
 
 ## Your Jellyfin server
 
@@ -11,6 +11,10 @@ You choose the server to connect to. Duofin sends that server the information ne
 Saved server details, access tokens, preferences and cached library information are held on your device using the app's local storage and keychain facilities. You can remove a server or sign out in the app. Removing the app removes its app-container data; iOS keychain behaviour is controlled by the operating system.
 
 Optional features, including local-network discovery, casting and network-specific server selection, use the relevant system permissions. You may deny or revoke them in iOS Settings.
+
+## Google Cast
+
+Duofin includes Google Cast for optional casting. The bundled SDK privacy manifest declares device identifiers, product-interaction data and other diagnostic data for analytics and app functionality. Its manifest declares that these data are not linked to your identity and are not used for tracking. Google processes SDK data under its own policies. These SDK declarations are included in Duofin’s App Store privacy answers.
 
 ## Review demo and support
 
